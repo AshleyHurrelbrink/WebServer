@@ -28,10 +28,8 @@ public class WebServer extends Thread {
 		System.out.println("New Communication Thread Started");
 
 		try {
-			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),
-					true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					clientSocket.getInputStream()));
+			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),true);
+			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
 			String inputLine;
 			
@@ -39,7 +37,7 @@ public class WebServer extends Thread {
 				System.out.println("From Client: " + inputLine);
 				out.println("From Server:" + inputLine);
 
-				if (inputLine.trim().equals(""))
+				if (inputLine.trim().equals("")) 
 					break;
 			}
 
@@ -52,7 +50,45 @@ public class WebServer extends Thread {
 		}
 	}
 	
-	public void setStoppedState() {
+	
+	public String request() throws IOException {
+		String requestedResource = "";
+		/*BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		 
+        String requestedResource = "";
+        String incomingLineFromClient;
+        while ((incomingLineFromClient = in.readLine()) != null) {
+            System.out.println(incomingLineFromClient);
+ 
+            if(incomingLineFromClient.contains("HTTP/1.1")) {
+                requestedResource = incomingLineFromClient;
+            }
+ 
+            if (incomingLineFromClient.equals(""))
+                break;
+        }
+        response(requestedResource);*/
+		return requestedResource;
+	}
+	
+	public String response(String requestedResource) {
+		String response = "You have requested this resource: " + requestedResource;
+		/*PrintWriter out = new PrintWriter(clientSocket.getOutputStream());
+		 
+        String response = "You have requested this resource: " + requestedResource;
+ 
+        out.print("HTTP/1.1 200 OK\n");
+        out.print("Content-Length: " + response.length() + "\n");
+        out.print("Content-Type: text/html; charset=utf-8\n");
+        out.print("Date: Tue, 25 Oct 2016 08:17:59 GMT\n");
+        out.print("\n");
+        out.print(response);
+        out.flush();*/
+		return response;
+	}
+	
+	
+	public void stopServer() {
 		// se pot configura toate campurile interfetei;
 		// serverul poate porni doar în modul normal: running;
 		// informatiile despre server vor indica starea initiala: not running;
@@ -63,7 +99,7 @@ public class WebServer extends Thread {
 		
 	}
 	
-	public void setRunningState() {
+	public void runServer() {
 		// interfata va oferi posibilitatea opririi serverului;
 		// se poate configura doar directorul de mentenanta;
 		// si este activ modul de trecere a serverului in starea de mentenanta;
@@ -72,7 +108,7 @@ public class WebServer extends Thread {
 		status.setRunning();
 	}
 	
-	public void setMaintenanceState() {
+	public void maintenanceServer() {
 		// interfata va oferi posibilitatea opririi serverului;
 		// si trecerii acestuia în modul normal de functionare;
 		// se poate configura doar directorul radacina al site-ului;
