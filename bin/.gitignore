@@ -1,1 +1,9 @@
+/test/
 /webserver/
+/Configuration.class
+/Conf.class
+/config/
+/exceptions/
+/validators/
+/parsers/
+/handlers/
