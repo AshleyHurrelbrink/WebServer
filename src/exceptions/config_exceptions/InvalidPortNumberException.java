@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.config_exceptions;
 
 public class InvalidPortNumberException extends Exception {
 	

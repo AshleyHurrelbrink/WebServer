@@ -1,7 +1,7 @@
 package config;
 
-import exceptions.LoadConfigurationFailureException;
-import exceptions.SaveConfigurationFailureException;
+import exceptions.config_exceptions.LoadConfigurationFailureException;
+import exceptions.config_exceptions.SaveConfigurationFailureException;
 
 public class Config {
 	

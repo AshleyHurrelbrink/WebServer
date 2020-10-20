@@ -1,4 +1,4 @@
-package exceptions;
+package exceptions.webserver_exceptions;
 
 public class WebServerStateTransitionException extends Exception {
 	

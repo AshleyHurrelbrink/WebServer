@@ -3,8 +3,8 @@ package test;
 import static org.junit.Assert.*;
 import org.junit.Test;
 import config.Config;
-import exceptions.LoadConfigurationFailureException;
-import exceptions.SaveConfigurationFailureException;
+import exceptions.config_exceptions.LoadConfigurationFailureException;
+import exceptions.config_exceptions.SaveConfigurationFailureException;
 
 public class ConfigTest {
 

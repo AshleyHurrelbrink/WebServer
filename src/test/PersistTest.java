@@ -6,9 +6,9 @@ import org.junit.Test;
 
 import config.Config;
 import config.Persist;
-import exceptions.InvalidMaintenanceDirectoryException;
-import exceptions.InvalidPortNumberException;
-import exceptions.InvalidRootDirectoryException;
+import exceptions.config_exceptions.InvalidMaintenanceDirectoryException;
+import exceptions.config_exceptions.InvalidPortNumberException;
+import exceptions.config_exceptions.InvalidRootDirectoryException;
 
 public class PersistTest {
 

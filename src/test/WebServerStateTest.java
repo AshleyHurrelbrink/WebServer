@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import exceptions.WebServerStateTransitionException;
+import exceptions.webserver_exceptions.WebServerStateTransitionException;
 import webserver.WebServerState;
 
 public class WebServerStateTest {

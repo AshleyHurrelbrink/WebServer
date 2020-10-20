@@ -1,6 +1,6 @@
 package webserver;
 
-import exceptions.WebServerStateTransitionException;
+import exceptions.webserver_exceptions.WebServerStateTransitionException;
 import validators.StateValidator;
 
 public class WebServerState {
