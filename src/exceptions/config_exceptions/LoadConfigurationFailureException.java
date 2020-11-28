@@ -1,8 +1,8 @@
 package exceptions.config_exceptions;
 
-public class LoadConfigurationFailureException extends Exception {
+public class LoadConfigurationFailureException extends ConfigurationException {
 
-	public LoadConfigurationFailureException() {
-		super("Invalid Config File");
+	public LoadConfigurationFailureException(String message) {
+		super(message);
 	}
 }
