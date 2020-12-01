@@ -1,5 +1,6 @@
 package webserver;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class TerminalInterface {
@@ -35,7 +36,7 @@ public class TerminalInterface {
 	}
 	
 	public static void editConfiguration() {
-		Scanner scanner = new Scanner(System.in);
+		Scanner scanner = new Scanner(System.in,StandardCharsets.UTF_8);
 		editConfigurationOption();
 		char result = scanner.next().charAt(0);
 		switch(result) {
@@ -52,21 +53,19 @@ public class TerminalInterface {
 	}
 	
 	public static void outputMessage(String str) {
-		if(DefaultValues.debug==1) {
-			System.out.println("Message: " + str);
-		}
+		//if(DefaultValues.debug==1) 
+		System.out.println("Message: " + str);
+		
 	}
 	
 	public static void outputError(String str) {
-		if(DefaultValues.debug==2) {
-			System.out.println("Error: " + str);
-		}
+		//if(DefaultValues.debug==2) 
+		System.out.println("Error: " + str);
 	}
 	
 	public static void outputWarning(String str) {
-		if(DefaultValues.debug==3) {
-			System.out.println("Warning: " + str);
-		}
+		//if(DefaultValues.debug==3) 
+		System.out.println("Warning: " + str);
 	}
 	
 	

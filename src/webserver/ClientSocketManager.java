@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.charset.StandardCharsets;
 
 public class ClientSocketManager {
 
@@ -14,7 +15,7 @@ public class ClientSocketManager {
 	
 	public ClientSocketManager (Socket clientSocket) throws IOException {
 		this.clientSocket = clientSocket;
-		this.clientInput = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream()));
+		this.clientInput = new BufferedReader(new InputStreamReader(this.clientSocket.getInputStream(),StandardCharsets.UTF_8));
 		this.clientOutput = this.clientSocket.getOutputStream();
 	}
 	

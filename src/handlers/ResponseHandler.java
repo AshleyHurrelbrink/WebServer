@@ -3,6 +3,7 @@ package handlers;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.charset.Charset;
 
 import parsers.ResponseParser;
 import webserver.Request;
@@ -11,12 +12,12 @@ import webserver.Response;
 public class ResponseHandler {
 
 	public static void sendResponse(Socket clientSocket, OutputStream clientOutput, Response response) throws IOException {
-        clientOutput.write((response.getHttpVersion()+" \r\n" + response.getStatusCode()).getBytes());
-        clientOutput.write(("ContentType: " + response.getContentType() + "\r\n").getBytes());
-        clientOutput.write("\r\n".getBytes());
+        clientOutput.write((response.getHttpVersion()+" \r\n" + response.getStatusCode()).getBytes(Charset.forName("UTF-8")));
+        clientOutput.write(("ContentType: " + response.getContentType() + "\r\n").getBytes(Charset.forName("UTF-8")));
+        clientOutput.write("\r\n".getBytes(Charset.forName("UTF-8")));
         clientOutput.write(response.getContentBytes());
-        clientOutput.write("\r\n\r\n".getBytes());
-        clientOutput.flush();
+        clientOutput.write("\r\n\r\n".getBytes(Charset.forName("UTF-8")));
+        clientOutput.close();
         clientSocket.close();
     }
 	

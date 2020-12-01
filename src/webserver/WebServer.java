@@ -45,22 +45,21 @@ public class WebServer {
 				while (!WebServerState.isStopped()) {
 					TerminalInterface.outputMessage("Waiting for Connection");
 					ClientSocketManager clientSocket = new ClientSocketManager(serverSocket.accept());
-					new WebServerThread(clientSocket, this.persist);
+					Thread thread = new Thread(new WebServerThread(clientSocket, this.persist));
+					thread.start();
 				} 
 			}catch (IOException e) {
 				System.err.println("Accept failed.");
-				System.exit(1);
 			}
-		} catch (IOException e) {
-			System.err.println("Could not listen on port: " + this.persist.getPortNumber());
-			System.exit(1);
-		} finally {
+			
 			try {
 				serverSocket.close();
 			} catch (IOException e) {
 				System.err.println("Could not close port: 10008.");
-				System.exit(1);
 			}
+			
+		} catch (IOException e) {
+			System.err.println("Could not listen on port: " + this.persist.getPortNumber());
 		}
 	}
 

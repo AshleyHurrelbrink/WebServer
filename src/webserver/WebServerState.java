@@ -9,11 +9,7 @@ public class WebServerState {
 	private static final int running = 2;
 	private static final int maintenance = 3;
 	
-	private static int state=1;
-	
-	public WebServerState() {
-		state=stopped;
-	}
+	private static int state=stopped;
 	
 	public static boolean isStopped() {
 		return (state==stopped)? true: false;

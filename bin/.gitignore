@@ -1,7 +1,4 @@
-/config/
-/test/
-/validators/
-/exceptions/
 /webserver/
-/handlers/
 /parsers/
+/config/
+/handlers/

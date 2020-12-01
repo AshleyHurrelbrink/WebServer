@@ -14,7 +14,7 @@ public class Response  {
 		this.httpVersion=httpVersion;
 		this.statusCode=statusCode;
 		this.contentType=contentType;
-		this.contentBytes=contentBytes;
+		this.contentBytes=contentBytes.clone();
 		this.contentString=contentString;
 	}
 
@@ -31,7 +31,7 @@ public class Response  {
 	}
 	
 	public byte[] getContentBytes() {
-		return contentBytes;
+		return contentBytes.clone();
 	}
 	
 	public String getContentString() {

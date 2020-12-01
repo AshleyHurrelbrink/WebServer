@@ -1,6 +1,7 @@
 package webserver;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 import config.Config;
 import config.FileManager;
@@ -23,7 +24,7 @@ public class Main {
 		new Thread(new Runnable() {
 	        @Override
 	      public void run() {
-	           try (Scanner in = new Scanner(System.in)) {
+	           try (Scanner in = new Scanner(System.in,StandardCharsets.UTF_8)) {
 				while (true) {
 				        TerminalInterface.printServerSettingsMenu();
 

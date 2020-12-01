@@ -15,28 +15,26 @@ public class WebServerThread extends Thread {
 	public WebServerThread(ClientSocketManager clientSocketManager, Persist persist) {
 		this.clientSocketManager = clientSocketManager;
 		this.persist=persist;
-		start();
 	}
 
 	public void run(){
 		TerminalInterface.outputMessage("New Communication Thread started");
 
 		try {
-			if(WebServerState.isRunning()) {
+			if(WebServerState.isRunning()) 
 				performRunningMode();
-			}
+	
 					
-			if(WebServerState.isMaintenance()) {
+			if(WebServerState.isMaintenance()) 
 				performMaintenanceMode();
-			}
+			
 					
-			if(WebServerState.isStopped()) {
-			}	
+			/*if(WebServerState.isStopped()) {
+			}*/	
 
 			this.clientSocketManager.closeAll();
 		} catch (IOException e) {
 			System.err.println("Problem with Communication Server");
-			System.exit(1);
 		} catch (InvalidRequestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

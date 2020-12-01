@@ -51,7 +51,7 @@ public class ResponseParser {
 			 }
 		 }
 		 
-		 if (requestFile.endsWith(".html") || requestFile.endsWith(".html"))
+		 if (requestFile.endsWith(".html") || requestFile.endsWith(".htm"))
 			 contentType="text/html";
 		 else if (requestFile.endsWith(".css"))
 			 contentType="text/css";
