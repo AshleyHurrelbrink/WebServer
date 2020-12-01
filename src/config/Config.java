@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
 
+import exceptions.config_exceptions.ConfigurationException;
 import exceptions.config_exceptions.GetSettingFailureException;
 import exceptions.config_exceptions.LoadConfigurationFailureException;
 import exceptions.config_exceptions.SetSettingFailureException;
@@ -18,7 +19,6 @@ public class Config {
 	
 	public Config(String configurationFileName) throws  IOException, LoadConfigurationFailureException {
 		this.configurationFileName=configurationFileName;
-		loadConfiguration();
 	}
 	
 	public void loadConfiguration() throws LoadConfigurationFailureException, IOException {	
@@ -29,10 +29,10 @@ public class Config {
 			if (reader != null) {
 				prop.load(reader);
 			} else {
-				throw new LoadConfigurationFailureException("Input Configuration file '" + configurationFileName + "' not found in the classpath");
+				throw new LoadConfigurationFailureException("Error occured while loading Configuration file '" + configurationFileName + "'");
 			}
 		} catch (IOException ex) {
-            throw new IOException("Error on loading Config file");
+            throw new IOException("Configuration file '" + configurationFileName + "' was not found");
         }
 	}
 	
@@ -67,6 +67,16 @@ public class Config {
 		System.out.println("PrintConfig -------------------------------");
 		prop.forEach((k, v) -> System.out.println("Key : " + k + ", Value : " + v));
 		System.out.println("-------------------------------------------");
+	}
+	
+	public static void createConfigFile(String maintenanceDirPath, String rootDirPath, int portNumber, String configPath) throws IOException, ConfigurationException {
+		Config newConfig = new Config (configPath);
+		newConfig.loadConfiguration();
+		newConfig.setSetting("maintenanceDirectory", maintenanceDirPath);
+		newConfig.setSetting("rootDirectory", rootDirPath);
+		newConfig.setSetting("portNumber", String.valueOf(portNumber));
+		newConfig.saveConfiguration();
+		
 	}
 
 }

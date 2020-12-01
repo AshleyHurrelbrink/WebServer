@@ -1,45 +1,76 @@
 package webserver;
 
-import java.net.*;
-import java.io.*;
+import java.io.IOException;
+import java.net.ServerSocket;
 
-public class WebServer extends Thread {
+import config.Config;
+import config.Persist;
+import exceptions.config_exceptions.ConfigurationException;
+import exceptions.config_exceptions.LoadConfigurationFailureException;
+import exceptions.webserver_exceptions.WebServerStateTransitionException;
+
+public class WebServer {
 	
-	protected Socket clientSocket;
-
-	public WebServer(Socket clientSoc) {
-		clientSocket = clientSoc;
-		start();
+	private Persist persist;
+	
+	public WebServer(String configFilePath) throws LoadConfigurationFailureException, IOException {
+		this.persist = new Persist(new Config(configFilePath));
+	}
+	
+	public void startWebServer() throws ConfigurationException, IOException, WebServerStateTransitionException {
+		
+		WebServerState.setRunning();
+		
+		while(true) {
+			if(WebServerState.isRunning()|| WebServerState.isMaintenance()) {
+				performRunningOrMaintenanceMode();
+			}
+					
+			if(WebServerState.isStopped()) {
+				performStoppedMode();
+			}		
+		}
+	}
+		
+	public void performRunningOrMaintenanceMode() throws ConfigurationException {
+		
+		ServerSocket serverSocket = null;
+		
+		try {
+			serverSocket = new ServerSocket(this.persist.getPortNumber());
+			System.out.println("Connection Socket Created");
+			try {
+				while (WebServerState.isRunning()) {
+					System.out.println("Waiting for Connection");
+					ClientSocketManager clientSocket = new ClientSocketManager(serverSocket.accept());
+					new WebServerThread(clientSocket, this.persist);
+				} 
+			}catch (IOException e) {
+				System.err.println("Accept failed.");
+				System.exit(1);
+			}
+		} catch (IOException e) {
+			System.err.println("Could not listen on port: " + this.persist.getPortNumber());
+			System.exit(1);
+		} finally {
+			try {
+				serverSocket.close();
+			} catch (IOException e) {
+				System.err.println("Could not close port: 10008.");
+				System.exit(1);
+			}
+		}
 	}
 
-	public void run() {
-		System.out.println("New Communication Thread Started");
-
-		try {
-			PrintWriter out = new PrintWriter(clientSocket.getOutputStream(),
-					true);
-			BufferedReader in = new BufferedReader(new InputStreamReader(
-					clientSocket.getInputStream()));
-
-			String request=WebServerManager.getRequest(in);
-			
-			//request handler
-			WebServerManager.sendResponse(clientSocket,"OK", "text/html", "<html><p><b>hei</b> there</p></html>".getBytes());
-			
-			/*while ((inputLine = in.readLine()) != null) {
-				System.out.println("From Client: " + inputLine);
-				out.println("From Server:" + inputLine);
-
-				if (inputLine.trim().equals(""))
-					break;
-			}*/
-
-			out.close();
-			in.close();
-			clientSocket.close();
-		} catch (IOException e) {
-			System.err.println("Problem with Communication Server");
-			System.exit(1);
+	
+	public void performStoppedMode() throws WebServerStateTransitionException {
+		System.out.println("Stopped Mode was Activated -------------------------");
+		
+		while (WebServerState.isStopped()) {
+			System.out.println(WebServerState.getCurrentState());
+		   WebServerState.setRunning();
+		   System.out.println("AFTER:" + WebServerState.getCurrentState());
 		}
 	}
 }
+

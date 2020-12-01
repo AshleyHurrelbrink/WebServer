@@ -26,15 +26,30 @@ public class Persist {
 	}
 	
 	public String getRootDirectory() throws ConfigurationException {
-		return config.getSetting("rootDirectory");
+		String rootDirectory = config.getSetting("rootDirectory");
+		if(!RootDirectoryValidator.validate(rootDirectory))
+		{
+			throw new InvalidRootDirectoryException();
+		}
+		return rootDirectory;
 	}
 	
 	public String getMaintenanceDirectory() throws ConfigurationException {
-		return config.getSetting("maintenanceDirectory");
+		String maintenanceDirectory = config.getSetting("maintenanceDirectory");
+		if(!MaintenanceDirectoryValidator.validate(maintenanceDirectory))
+		{
+			throw new InvalidMaintenanceDirectoryException();
+		}
+		return maintenanceDirectory;
 	}
 	
 	public int getPortNumber() throws NumberFormatException, ConfigurationException {
-		return Integer.parseInt(config.getSetting("portNumber"));
+		int portNumber = Integer.parseInt(config.getSetting("portNumber"));
+		if(!PortNumberValidator.validate(portNumber))
+		{
+			throw new InvalidPortNumberException();
+		}
+		return portNumber;
 	}
 	
 	
@@ -62,4 +77,5 @@ public class Persist {
 		config.setSetting("portNumber",String.valueOf(portNumber));
 		config.saveConfiguration();
 	}
+	
 }

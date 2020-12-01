@@ -1,57 +1,121 @@
 package test;
 
 import static org.junit.Assert.*;
+
+import java.io.IOException;
+
+import org.junit.Before;
 import org.junit.Test;
 import config.Config;
+import exceptions.config_exceptions.ConfigurationException;
+import exceptions.config_exceptions.GetSettingFailureException;
 import exceptions.config_exceptions.LoadConfigurationFailureException;
+import exceptions.config_exceptions.SetSettingFailureException;
 
 public class ConfigTest {
-/*
-	@Test
-	public void testSetSetting() {
-		Config conf = new Config("valid_configuration_filename");
-		//assertTrue(conf.setSetting("PortNumber", "8000"));
-		//assertTrue(conf.setSetting("RootDirectory", "./www_root"));
-		//assertTrue(conf.setSetting("MaintenanceDirectory", "./www_maintenance"));
+	
+	/* testingconfig.properties
+	 * "key = value
+	 * number = 1
+	 * path = C:/Users/ahurr/Desktop/College
+	 * empty = "
+	 */
+	String validConfigFileName, invalidConfigFileName;
+	
+	@Before
+	public void init() {
+		String content = "key = value \n"
+				+ "number = 1 \n"
+				+ "path = C:/Users/ahurr/Desktop/College \n"
+				+ "empty = \n";
+		this.validConfigFileName = "resources/testing/testingconfig.properties";
+		this.invalidConfigFileName = "resources/testing/testingconfig_nonExistentFile.properties";
+		String filePath = "resources/testing/testingconfig.properties";
+		//writh content to filePath
 	}
 	
 	@Test
-	public void testGetSetting() {
-		Config conf = new Config("valid_configuration_filename");
+	public void testValidLoadConfigurationFile() throws LoadConfigurationFailureException, IOException  {
+		//loading is done in the constructor
+		Config conf = new Config(validConfigFileName);
+		conf.loadConfiguration();
+	}
+	
+	@Test (expected = IOException.class)
+	public void testInvalidLoadConfigurationFile() throws ConfigurationException, IOException {
+		//loading is done in the constructor
+		Config conf = new Config(invalidConfigFileName);
+		conf.loadConfiguration();
+	}
+	
+	@Test
+	public void testValidGetSetting() throws ConfigurationException, IOException {
+		Config conf = new Config(validConfigFileName);
+		conf.loadConfiguration();
 		
-		/*conf.setSetting("PortNumber", "8000");
-		conf.setSetting("RootDirectory", "./www_root");
-		conf.setSetting("MaintenanceDirectory", "./www_maintenance");
+		assertEquals("value",conf.getSetting("key"));
+		assertEquals("1", conf.getSetting("number"));
+		assertEquals("C:/Users/ahurr/Desktop/College", conf.getSetting("path"));
+		assertEquals("", conf.getSetting("empty"));
+	}
+	
+	@Test (expected = GetSettingFailureException.class)
+	public void testInvalidGetSetting() throws ConfigurationException, IOException {
+		Config conf = new Config(validConfigFileName);
+		conf.loadConfiguration();
+		
+		conf.getSetting("InvalidKey");
+	}
+	
 
-		assertEquals("8000",conf.getSetting("PortNumber"));
-		assertEquals("./www_root", conf.getSetting("RootDirectory"));
-		assertEquals("./www_maintenance", conf.getSetting("MaintenanceDirectory"));
+	@Test
+	public void testSetSettingChangeValue() throws ConfigurationException, IOException {
+		Config conf = new Config(validConfigFileName);
+		conf.loadConfiguration();
+		
+		conf.setSetting("number", "2");
+		assertEquals("2", conf.getSetting("number"));
 	}
 	
 	@Test
-	public void testValidLoadConfigurationFile() throws LoadConfigurationFailureException {
-		Config conf = new Config("valid_configuration_filename");
-		//conf.loadConfiguration();
+	public void testSetSettingAddNewValue() throws ConfigurationException, IOException {
+		Config conf = new Config(validConfigFileName);
+		conf.loadConfiguration();
+		
+		conf.setSetting("newKey", "newValue");
+		assertEquals("newValue", conf.getSetting("newKey"));
 	}
 	
-	@Test (expected = LoadConfigurationFailureException.class)
-	public void testInvalidLoadConfigurationFile() throws LoadConfigurationFailureException {
-		Config conf = new Config("invalid_configuration_filename");
-		//conf.loadConfiguration();
+	@Test (expected = GetSettingFailureException.class)
+	public void testNotUsingSaveConfiguration() throws ConfigurationException, IOException {
+		//setSetting without saving
+		Config conf1 = new Config(validConfigFileName);
+		conf1.loadConfiguration();
+		
+		conf1.setSetting("newKey", "newValue");
+		assertEquals("newValue", conf1.getSetting("newKey"));
+				
+		//check if value is saved to file
+		Config conf2 = new Config(validConfigFileName);
+		conf2.loadConfiguration();
+		conf2.getSetting("newKey");
 	}
 	
 	@Test
-	public void testValidSaveConfiguration() throws SaveConfigurationFailureException {
-		Config conf = new Config("valid_configuration_filename");
-		conf.saveConfiguration();
+	public void testUsingSaveConfiguration() throws ConfigurationException, IOException {
+		//setSetting with saving
+		Config conf1 = new Config(validConfigFileName);
+		conf1.loadConfiguration();
+		
+		conf1.setSetting("newKey", "newValue");
+		assertEquals("newValue", conf1.getSetting("newKey"));
+		conf1.saveConfiguration();
+		
+		//check if value is saved to file
+		Config conf2 = new Config(validConfigFileName);
+		conf2.loadConfiguration();
+		conf2.getSetting("newKey");
 	}
-	
-	@Test (expected = SaveConfigurationFailureException.class)
-	public void testInvalidSaveConfiguration() throws SaveConfigurationFailureException{
-		Config conf = new Config("invalid_configuration_filename");
-		conf.saveConfiguration();
-	}
-	*/
-	
 
+	
 }
