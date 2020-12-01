@@ -1,38 +1,33 @@
 package test;
 
 import static org.junit.Assert.*;
-
 import java.io.IOException;
-
 import org.junit.Before;
 import org.junit.Test;
 import config.Config;
+import config.FileManager;
 import exceptions.config_exceptions.ConfigurationException;
 import exceptions.config_exceptions.GetSettingFailureException;
 import exceptions.config_exceptions.LoadConfigurationFailureException;
-import exceptions.config_exceptions.SetSettingFailureException;
 
 public class ConfigTest {
 	
-	/* testingconfig.properties
-	 * "key = value
-	 * number = 1
-	 * path = C:/Users/ahurr/Desktop/College
-	 * empty = "
-	 */
 	String validConfigFileName, invalidConfigFileName;
 	
 	@Before
-	public void init() {
+	public void init() throws IOException {
 		String content = "key = value \n"
 				+ "number = 1 \n"
 				+ "path = C:/Users/ahurr/Desktop/College \n"
 				+ "empty = \n";
 		this.validConfigFileName = "resources/testing/testingconfig.properties";
 		this.invalidConfigFileName = "resources/testing/testingconfig_nonExistentFile.properties";
+		
+		//create validConfigFileName
 		String filePath = "resources/testing/testingconfig.properties";
-		//writh content to filePath
+		FileManager.writeContentToFile(filePath, content);	
 	}
+	
 	
 	@Test
 	public void testValidLoadConfigurationFile() throws LoadConfigurationFailureException, IOException  {
@@ -116,6 +111,4 @@ public class ConfigTest {
 		conf2.loadConfiguration();
 		conf2.getSetting("newKey");
 	}
-
-	
 }

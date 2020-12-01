@@ -14,9 +14,9 @@ public class DirectoryManagerTest {
 	
 	@Before
 	public void init() {
-		this.validDirectoryPath = "..\\WebServer\\resources\\testing\\File_DirectoryMaintenance\\ValidDirectory";
-		this.invalidDirectoryPath = "..\\WebServer\\resources\\testing\\File_DirectoryMaintenance\\InExistentDirectory";
-		this.validFilePath = "..\\WebServer\\resources\\testing\\File_DirectoryMaintenance\\ValidDirectory\\validFile.html";
+		this.validDirectoryPath = "../WebServer/resources/testing/File_DirectoryMaintenance/ValidDirectory";
+		this.invalidDirectoryPath = "../WebServer/resources/testing/File_DirectoryMaintenance/InExistentDirectory";
+		this.validFilePath = "../WebServer/resources/testing/File_DirectoryMaintenance/ValidDirectory/validFile.html";
 		this.validFileName = "validFile.html"; //found in validDirectoryPath
 		this.invalidFileName = "invalidFile";
 		this.validDirectoryName = "validDir"; //found in validDirectoryPath

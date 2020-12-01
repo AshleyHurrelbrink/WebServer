@@ -9,7 +9,7 @@ public class WebServerState {
 	private static final int running = 2;
 	private static final int maintenance = 3;
 	
-	private static int state;
+	private static int state=1;
 	
 	public WebServerState() {
 		state=stopped;
@@ -28,21 +28,21 @@ public class WebServerState {
 	}
 	
 	public static void setStopped() throws WebServerStateTransitionException {
-		if(!StateValidator.validateSetStopped(stopped)) {
+		if(!StateValidator.validateSetStopped(state)) {
 			throw new WebServerStateTransitionException();
 		}
 		state=stopped;
 	}
 	
 	public static void setRunning() throws WebServerStateTransitionException {
-		if(!StateValidator.validateSetStopped(running)) {
+		if(!StateValidator.validateSetRunning(state)) {
 			throw new WebServerStateTransitionException();
 		}
 		state=running;
 	}
 	
 	public static void setMaintenance() throws WebServerStateTransitionException {
-		if(!StateValidator.validateSetStopped(maintenance)) {
+		if(!StateValidator.validateSetMaintenance(state)) {
 			throw new WebServerStateTransitionException();
 		}
 		state=maintenance;

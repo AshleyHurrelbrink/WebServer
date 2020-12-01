@@ -19,29 +19,31 @@ public class WebServer {
 	
 	public void startWebServer() throws ConfigurationException, IOException, WebServerStateTransitionException {
 		
-		WebServerState.setRunning();
-		
 		while(true) {
-			if(WebServerState.isRunning()|| WebServerState.isMaintenance()) {
-				performRunningOrMaintenanceMode();
-			}
-					
-			if(WebServerState.isStopped()) {
+			if(WebServerState.isRunning())
+				performStartMode();
+			
+			if (WebServerState.isMaintenance()) 
+				performStartMode();
+						
+			if(WebServerState.isStopped()) 
 				performStoppedMode();
-			}		
+				
 		}
 	}
 		
-	public void performRunningOrMaintenanceMode() throws ConfigurationException {
+	public void performStartMode() throws ConfigurationException {
+		
+		TerminalInterface.outputMessage("Starting. Enter into state: " + WebServerState.getCurrentState());
 		
 		ServerSocket serverSocket = null;
-		
 		try {
 			serverSocket = new ServerSocket(this.persist.getPortNumber());
-			System.out.println("Connection Socket Created");
+			TerminalInterface.outputMessage("Connection Socket Created");
+			
 			try {
-				while (WebServerState.isRunning()) {
-					System.out.println("Waiting for Connection");
+				while (!WebServerState.isStopped()) {
+					TerminalInterface.outputMessage("Waiting for Connection");
 					ClientSocketManager clientSocket = new ClientSocketManager(serverSocket.accept());
 					new WebServerThread(clientSocket, this.persist);
 				} 
@@ -64,13 +66,9 @@ public class WebServer {
 
 	
 	public void performStoppedMode() throws WebServerStateTransitionException {
-		System.out.println("Stopped Mode was Activated -------------------------");
-		
-		while (WebServerState.isStopped()) {
-			System.out.println(WebServerState.getCurrentState());
-		   WebServerState.setRunning();
-		   System.out.println("AFTER:" + WebServerState.getCurrentState());
-		}
+		//TerminalInterface.outputMessage("Stopped. Enter into state: " + WebServerState.getCurrentState());
 	}
+	
+	
 }
 

@@ -1,10 +1,10 @@
 package webserver;
 
-import java.net.*;
-
 import config.Persist;
+import exceptions.config_exceptions.ConfigurationException;
+import exceptions.parsers_exceptions.InvalidRequestException;
+import handlers.RequestHandler;
 import handlers.ResponseHandler;
-
 import java.io.*;
 
 public class WebServerThread extends Thread {
@@ -18,8 +18,8 @@ public class WebServerThread extends Thread {
 		start();
 	}
 
-	public void run() {
-		System.out.println("New Communication Thread Started");
+	public void run(){
+		TerminalInterface.outputMessage("New Communication Thread started");
 
 		try {
 			if(WebServerState.isRunning()) {
@@ -31,42 +31,33 @@ public class WebServerThread extends Thread {
 			}
 					
 			if(WebServerState.isStopped()) {
-				performStoppedMode();
 			}	
-	
 
 			this.clientSocketManager.closeAll();
 		} catch (IOException e) {
 			System.err.println("Problem with Communication Server");
 			System.exit(1);
+		} catch (InvalidRequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
-	public void performStoppedMode() {
-		
+	
+	public void performRunningMode() throws IOException, InvalidRequestException, ConfigurationException {	
+		Request request = RequestHandler.getRequest(this.clientSocketManager.getClientInput());
+		Response response = ResponseHandler.getResponse(this.persist.getRootDirectory(), request);
+		ResponseHandler.sendResponse(this.clientSocketManager.getClientSocket(), this.clientSocketManager.getClientOutput(), response);	
 	}
 	
-	public void performRunningMode() throws IOException {
-		String request=WebServerThread.getRequest(this.clientSocketManager.getClientInput());
-		ResponseHandler.sendResponse(this.clientSocketManager.getClientSocket(),this.clientSocketManager.getClientOutput(),"HTTP/1.1","OK", "text/html", "<html><p><b>hei</b> there</p></html>".getBytes());	
+	public void performMaintenanceMode() throws IOException, ConfigurationException, InvalidRequestException {
+		Request request = RequestHandler.getRequest(this.clientSocketManager.getClientInput());
+		Response response = ResponseHandler.getResponse(this.persist.getMaintenanceDirectory(),request);
+		ResponseHandler.sendResponse(this.clientSocketManager.getClientSocket(), this.clientSocketManager.getClientOutput(), response);	
 	}
-	
-	public void performMaintenanceMode() {
-		
-	}
-	
-	public static String getRequest(BufferedReader in) throws IOException {
-		String inputLine;
-		StringBuilder request = new StringBuilder();
-		
-		while ((inputLine = in.readLine()) != null) {
-			System.out.println(inputLine);
-			request.append(inputLine);
-			
-			if (inputLine.trim().equals(""))
-				break;
-		}
-		return request.toString();
-	}
+
 		
 }

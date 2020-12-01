@@ -16,9 +16,9 @@ public class FileManagerTest {
 	
 	@Before
 	public void init() {
-		this.validFile = "..\\WebServer\\resources\\testing\\File_DirectoryMaintenance\\ValidDirectory\\validFile.html";
-		this.invalidFile = "..\\WebServer\\resources\\testing\\File_DirectoryMaintenance\\InExistentFile";
-		this.validDirectory = "..\\WebServer\\resources\\testing\\File_DirectoryMaintenance\\ValidDirectory";
+		this.validFile = "../WebServer/resources/testing/File_DirectoryMaintenance/ValidDirectory/validFile.html";
+		this.invalidFile = "../WebServer/resources/testing/File_DirectoryMaintenance/InExistentFile";
+		this.validDirectory = "../WebServer/resources/testing/File_DirectoryMaintenance/ValidDirectory";
 		
 		this.expectedContent = "<html>\r\n"
 				+ " <p> hello </p>\r\n"

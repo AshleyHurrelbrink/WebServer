@@ -2,8 +2,6 @@ package handlers;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.http.HttpRequest;
-
 import exceptions.parsers_exceptions.InvalidRequestException;
 import parsers.RequestParser;
 import webserver.Request;
@@ -15,8 +13,9 @@ public class RequestHandler {
 		StringBuilder request = new StringBuilder();
 		
 		while ((inputLine = clientInput.readLine()) != null) {
-			System.out.println(inputLine);
+			//System.out.println(inputLine);
 			request.append(inputLine);
+			request.append('\n');
 			
 			if (inputLine.trim().equals(""))
 				break;

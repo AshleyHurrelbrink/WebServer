@@ -1,14 +1,11 @@
 package config;
 
 import java.io.IOException;
-
 import exceptions.config_exceptions.ConfigurationException;
-import exceptions.config_exceptions.GetSettingFailureException;
 import exceptions.config_exceptions.InvalidMaintenanceDirectoryException;
 import exceptions.config_exceptions.InvalidPortNumberException;
 import exceptions.config_exceptions.InvalidRootDirectoryException;
 import exceptions.config_exceptions.LoadConfigurationFailureException;
-import exceptions.config_exceptions.SetSettingFailureException;
 import validators.MaintenanceDirectoryValidator;
 import validators.PortNumberValidator;
 import validators.RootDirectoryValidator;

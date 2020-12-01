@@ -1,10 +1,7 @@
 package parsers;
 
 import java.io.IOException;
-
-import config.DirectoryManager;
 import config.FileManager;
-import validators.RootDirectoryValidator;
 import webserver.DefaultValues;
 import webserver.Request;
 import webserver.WebServerState;
@@ -24,62 +21,99 @@ public class ResponseParser {
 	}
 	
 	public String getStatusCode() {
-		if(WebServerState.isStopped()) {
+		if(WebServerState.isStopped()) 
 			return "502 Service Unavailable";
-		}
-		if(WebServerState.isMaintenance()) {
+		
+		if(WebServerState.isMaintenance()) 
 			return "502 Service Unavailable";
-		}
+		
 		if(WebServerState.isRunning()) {
 			if(isPageNotFound())
 				return "404 Not Found";
 			return "200 OK";
 		}
+		
 		return "502 Service Unavailable";
 	}
 	
 	public String getContentType() {
-		 String contentType="text/plain";
-		 if (request.getResourcePath().endsWith(".html") || request.getResourcePath().endsWith(".html"))
-			 contentType="text/html";
-		 else if (request.getResourcePath().endsWith(".jpg") || request.getResourcePath().endsWith(".jpeg"))
-			 contentType="image/jpeg";
-		 else if (request.getResourcePath().endsWith(".gif"))
-			 contentType="image/gif";
-		 else if (request.getResourcePath().endsWith(".class"))
-		     contentType="application/octet-stream";
-
+		 String contentType="text/plain";	 
+		 String requestFile = request.getResourcePath();
+		 
+		 if(requestFile.equals("/")) 
+			 requestFile = DefaultValues.getHomePage();
+		 
 		 if(isPageNotFound()) {
-			 contentType="text/html";
+			 if(WebServerState.isMaintenance()) {
+				 requestFile = DefaultValues.getHomePage();
+			 }else {
+				 requestFile = DefaultValues.getpageNotFound();
+			 }
 		 }
 		 
+		 if (requestFile.endsWith(".html") || requestFile.endsWith(".html"))
+			 contentType="text/html";
+		 else if (requestFile.endsWith(".css"))
+			 contentType="text/css";
+		 else if (requestFile.endsWith(".jpg") || requestFile.endsWith(".jpeg"))
+			 contentType="image/jpeg";
+		 else if (requestFile.endsWith(".gif"))
+			 contentType="image/gif";
+		 else if (requestFile.endsWith(".class"))
+		     contentType="application/octet-stream";
+		 	 
 		 return contentType;
 	}
 	
-	public String getContent() throws IOException {
+	public byte[] getContentByte() throws IOException {
 		String resultPath;
 		
-		if(request.getResourcePath().equals("/")) {
+		if(request.getResourcePath().equals("/")||request.getResourcePath().isEmpty()) {
 			resultPath = rootDirectoryPath + "/" + DefaultValues.getHomePage();
 		}
 		else if(FileManager.isFile(rootDirectoryPath + request.getResourcePath())) {
-			resultPath = rootDirectoryPath + "/" + request.getResourcePath();
+			resultPath = rootDirectoryPath + request.getResourcePath();
+		}
+		else if(WebServerState.isMaintenance()) {
+			resultPath = rootDirectoryPath + "/" + DefaultValues.getHomePage();
 		}
 		else {
 			resultPath = rootDirectoryPath  + "/" +  DefaultValues.getpageNotFound();
 		}
-		return FileManager.getContent(resultPath);		
+		
+		return FileManager.getContentBytes(resultPath);	
+	}
+	
+	public String getContentString() throws IOException {
+		String resultPath;
+		
+		if(request.getResourcePath().equals("/")||request.getResourcePath().isEmpty()) {
+			resultPath = rootDirectoryPath + "/" + DefaultValues.getHomePage();
+		}
+		else if(FileManager.isFile(rootDirectoryPath + request.getResourcePath())) {
+			resultPath = rootDirectoryPath + request.getResourcePath();
+		}
+		else if(WebServerState.isMaintenance()) {
+			resultPath = rootDirectoryPath + "/" + DefaultValues.getHomePage();
+		}
+		else {
+			resultPath = rootDirectoryPath  + "/" +  DefaultValues.getpageNotFound();
+		}
+		
+		return FileManager.getContent(resultPath);	
 	}
 	
 	public boolean isPageNotFound() {
-		if(request.getResourcePath().equals("/")) {
+		
+		//default page
+		if(request.getResourcePath().equals("/")) 
 			return false;
-		}
-		else if(FileManager.isFile(rootDirectoryPath + request.getResourcePath())) {
+		
+		//valid path
+		if(FileManager.isFile(rootDirectoryPath + request.getResourcePath())) 
 			return false;
-		}
-		else {
-			return true;
-		}
+
+		return true;
+		
 	}
 }

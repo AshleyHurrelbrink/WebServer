@@ -4,9 +4,7 @@ import exceptions.webserver_exceptions.WebServerStateTransitionException;
 
 public class StateValidator {
 	
-	private static final int stopped =1 ;
 	private static final int running = 2;
-	private static final int maintenance = 3;
 	
 	public static boolean validateSetStopped(int currentState) {
 		//can be set to stop no matter the current state

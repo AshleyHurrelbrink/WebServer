@@ -17,11 +17,26 @@ public class FileManager {
 	}
 	
 	public static String getContent(String filePath) throws IOException {
-		System.out.println("filePath: "+filePath);
+		//System.out.println("filePath: "+filePath);
 		try {
 			if(isFile(filePath)) {
 				String content = new String(Files.readAllBytes(Paths.get(filePath)));
 				return content;
+			}else {
+				throw new IOException("A file was not found at the given path '"+filePath+"'");
+			}
+		}
+		catch (IOException e){
+			throw new IOException("Error occured while getting file content.");
+		}
+	}
+	
+	public static byte[] getContentBytes(String filePath) throws IOException {
+		//System.out.println("filePath: "+filePath);
+		try {
+			if(isFile(filePath)) {
+				return Files.readAllBytes(Paths.get(filePath));
+
 			}else {
 				throw new IOException("A file was not found at the given path '"+filePath+"'");
 			}

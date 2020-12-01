@@ -1,21 +1,15 @@
 package test;
 
 import static org.junit.Assert.*;
-
 import java.io.IOException;
-
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
-
 import config.Config;
-import config.FileManager;
 import config.Persist;
 import exceptions.config_exceptions.ConfigurationException;
 import exceptions.config_exceptions.InvalidMaintenanceDirectoryException;
 import exceptions.config_exceptions.InvalidPortNumberException;
 import exceptions.config_exceptions.InvalidRootDirectoryException;
-import exceptions.config_exceptions.LoadConfigurationFailureException;
 
 public class PersistTest {
 	
