@@ -1,8 +1,10 @@
 package exceptions.config_exceptions;
 
-public class LoadConfigurationFailureException extends Exception {
+public class LoadConfigurationFailureException extends ConfigurationException {
 
-	public LoadConfigurationFailureException() {
-		super("Invalid Config File");
+	private static final long serialVersionUID = 1L;
+	
+	public LoadConfigurationFailureException(String message) {
+		super(message);
 	}
 }
