@@ -11,44 +11,40 @@ import validators.PortNumberValidator;
 import validators.RootDirectoryValidator;
 
 public class Persist {
-	
+
 	private Config config;
-		
+
 	public Persist(Config config) throws LoadConfigurationFailureException, IOException {
 		this.config = config;
 		config.loadConfiguration();
 	}
-	
+
 	public Persist() {
 	}
-	
+
 	public String getRootDirectory() throws ConfigurationException {
 		String rootDirectory = config.getSetting("rootDirectory");
-		if(!RootDirectoryValidator.validate(rootDirectory))
-		{
+		if (!RootDirectoryValidator.validate(rootDirectory)) {
 			throw new InvalidRootDirectoryException();
 		}
 		return rootDirectory;
 	}
-	
+
 	public String getMaintenanceDirectory() throws ConfigurationException {
 		String maintenanceDirectory = config.getSetting("maintenanceDirectory");
-		if(!MaintenanceDirectoryValidator.validate(maintenanceDirectory))
-		{
+		if (!MaintenanceDirectoryValidator.validate(maintenanceDirectory)) {
 			throw new InvalidMaintenanceDirectoryException();
 		}
 		return maintenanceDirectory;
 	}
-	
+
 	public int getPortNumber() throws NumberFormatException, ConfigurationException {
 		int portNumber = Integer.parseInt(config.getSetting("portNumber"));
-		if(!PortNumberValidator.validate(portNumber))
-		{
+		if (!PortNumberValidator.validate(portNumber)) {
 			throw new InvalidPortNumberException();
 		}
 		return portNumber;
 	}
-	
 	
 	public void setRootDirectory(String rootDirectory) throws IOException, ConfigurationException {
 		if(!RootDirectoryValidator.validate(rootDirectory))

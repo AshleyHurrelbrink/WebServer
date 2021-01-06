@@ -3,50 +3,47 @@ package webserver;
 import java.io.IOException;
 import java.net.ServerSocket;
 
-import config.Config;
 import config.Persist;
 import exceptions.config_exceptions.ConfigurationException;
-import exceptions.config_exceptions.LoadConfigurationFailureException;
+import exceptions.parsers_exceptions.InvalidRequestException;
 import exceptions.webserver_exceptions.WebServerStateTransitionException;
+import handlers.RequestHandler;
+import handlers.ResponseHandler;
 
-public class WebServer {
-	
+public class WebServer extends Thread{
+
+	private ClientSocketManager clientSocketManager;
 	private Persist persist;
-	
-	public WebServer(String configFilePath) throws LoadConfigurationFailureException, IOException {
-		this.persist = new Persist(new Config(configFilePath));
+
+	public WebServer(ClientSocketManager clientSocketManager, Persist persist) throws ConfigurationException {
+		this.clientSocketManager = clientSocketManager;
+		this.persist=persist;
+		start();
 	}
 	
-	public void startWebServer() throws ConfigurationException, IOException, WebServerStateTransitionException {
-		
+	public static void startWebServer(Persist persist) throws ConfigurationException {
 		while(true) {
-			if(WebServerState.isRunning())
-				performStartMode();
-			
-			if (WebServerState.isMaintenance()) 
-				performStartMode();
-						
-			if(WebServerState.isStopped()) 
-				performStoppedMode();
-				
+			if(WebServerState.isRunning()) {
+				performOnMode(persist);
+			}
+			// do nothing for WebServerState.isStopped()
 		}
 	}
 		
-	public void performStartMode() throws ConfigurationException {
+	public static void performOnMode(Persist persist) throws ConfigurationException {
 		
-		TerminalInterface.outputMessage("Starting. Enter into state: " + WebServerState.getCurrentState());
-		
+		TerminalGUI.outputMessage("Starting. Enter into state: " + WebServerState.getCurrentState());
 		ServerSocket serverSocket = null;
+
 		try {
-			serverSocket = new ServerSocket(this.persist.getPortNumber());
-			TerminalInterface.outputMessage("Connection Socket Created");
+			serverSocket = new ServerSocket(persist.getPortNumber());
+			TerminalGUI.outputMessage("Connection Socket Created");
 			
 			try {
 				while (!WebServerState.isStopped()) {
-					TerminalInterface.outputMessage("Waiting for Connection");
+					TerminalGUI.outputMessage("Waiting for Connection");
 					ClientSocketManager clientSocket = new ClientSocketManager(serverSocket.accept());
-					Thread thread = new Thread(new WebServerThread(clientSocket, this.persist));
-					thread.start();
+					new WebServer(clientSocket, persist);
 				} 
 			}catch (IOException e) {
 				System.err.println("Accept failed.");
@@ -59,15 +56,46 @@ public class WebServer {
 			}
 			
 		} catch (IOException e) {
-			System.err.println("Could not listen on port: " + this.persist.getPortNumber());
+			System.err.println("Could not listen on port: " + persist.getPortNumber());
 		}
 	}
 
-	
-	public void performStoppedMode() throws WebServerStateTransitionException {
-		//TerminalInterface.outputMessage("Stopped. Enter into state: " + WebServerState.getCurrentState());
+
+	public void run(){
+		TerminalGUI.outputMessage("New Communication Thread started");
+		try {
+			if(WebServerState.isRunning()) {
+				runRunningMode();
+			}
+
+			if(WebServerState.isMaintenance()) {
+				runMaintenanceMode();
+			}
+
+			this.clientSocketManager.closeAll();
+		} catch (IOException e) {
+			System.err.println("Problem with Communication Server");
+		} catch (InvalidRequestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
-	
+
+
+	public void runRunningMode() throws IOException, InvalidRequestException, ConfigurationException {
+		Request request = RequestHandler.getRequest(this.clientSocketManager.getClientInput());
+		Response response = ResponseHandler.getResponse(this.persist.getRootDirectory(), request);
+		ResponseHandler.sendResponse(this.clientSocketManager.getClientSocket(), this.clientSocketManager.getClientOutput(), response);
+	}
+
+	public void runMaintenanceMode() throws IOException, ConfigurationException, InvalidRequestException {
+		Request request = RequestHandler.getRequest(this.clientSocketManager.getClientInput());
+		Response response = ResponseHandler.getResponse(this.persist.getMaintenanceDirectory(),request);
+		ResponseHandler.sendResponse(this.clientSocketManager.getClientSocket(), this.clientSocketManager.getClientOutput(), response);
+	}
+
 }
 

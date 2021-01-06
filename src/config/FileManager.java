@@ -48,7 +48,7 @@ public class FileManager {
 	}
 	
 	public static void writeContentToFile(String filePath, String content) throws IOException {
-		FileWriter myWriter = new FileWriter(filePath,StandardCharsets.UTF_8);
+		FileWriter myWriter = new FileWriter(filePath);
 		try {
 		    myWriter.write(content);
 		} catch (IOException e) {

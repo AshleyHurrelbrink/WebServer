@@ -22,7 +22,7 @@ public class Config {
 	
 	public void loadConfiguration() throws LoadConfigurationFailureException, IOException {	
 		this.prop = new Properties();
-		FileReader reader = new FileReader(configurationFileName,StandardCharsets.UTF_8);
+		FileReader reader = new FileReader(configurationFileName);
 		try {
 			this.prop.load(reader);
 		} catch (IOException ex) {
@@ -33,7 +33,7 @@ public class Config {
 	}
 	
 	public void saveConfiguration() throws IOException{
-		FileWriter output = new FileWriter(this.configurationFileName,StandardCharsets.UTF_8);
+		FileWriter output = new FileWriter(this.configurationFileName);
 		try {
 			prop.store(output, "Changed file");
         } catch (IOException ex) {

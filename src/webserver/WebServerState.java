@@ -1,10 +1,15 @@
 package webserver;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
+
+import exceptions.config_exceptions.ConfigurationException;
 import exceptions.webserver_exceptions.WebServerStateTransitionException;
 import validators.StateValidator;
 
-public class WebServerState {
-	
+public class WebServerState extends Thread {
+
 	private static final int stopped =1 ;
 	private static final int running = 2;
 	private static final int maintenance = 3;

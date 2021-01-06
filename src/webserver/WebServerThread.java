@@ -18,19 +18,14 @@ public class WebServerThread extends Thread {
 	}
 
 	public void run(){
-		TerminalInterface.outputMessage("New Communication Thread started");
+		TerminalGUI.outputMessage("New Communication Thread started");
 
 		try {
 			if(WebServerState.isRunning()) 
 				performRunningMode();
-	
-					
+
 			if(WebServerState.isMaintenance()) 
 				performMaintenanceMode();
-			
-					
-			/*if(WebServerState.isStopped()) {
-			}*/	
 
 			this.clientSocketManager.closeAll();
 		} catch (IOException e) {

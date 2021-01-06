@@ -1,73 +1,71 @@
 package webserver;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
+
 import config.Config;
 import config.FileManager;
+import config.Persist;
 import exceptions.config_exceptions.ConfigurationException;
 import exceptions.config_exceptions.LoadConfigurationFailureException;
 import exceptions.webserver_exceptions.WebServerStateTransitionException;
 
 public class Main {
-
 	
 	public static void main(String[] args) throws IOException, ConfigurationException, WebServerStateTransitionException {
-		
-		String configFilePath = "C:/Users/ahurr/Desktop/College/Year 4 (2020-2021)/sem1 (year 4)/SVV/WebServer/WebServer/WebserverTestingDirectories/config.properties";
-		
-		/*WebServer webServer= new WebServer(configFilePath);
-		WebServerState.setRunning();
-		WebServerState.setMaintenance();
-		webServer.startWebServer();*/
-		
-		new Thread(new Runnable() {
-	        @Override
-	      public void run() {
-	           try (Scanner in = new Scanner(System.in,StandardCharsets.UTF_8)) {
-				while (true) {
-				        TerminalInterface.printServerSettingsMenu();
+		Persist persist = Main.getPersist();
+		Main.startWebServer(persist);
+	}
 
-				        try {
-				            switch (in.nextInt()) {
-				                case 0:
-				                    WebServerState.setStopped();
-				                    break;
-				                case 1:
-				                    WebServerState.setRunning();
-				                    break;
-				                case 2:
-				                	 WebServerState.setMaintenance();
-				                    break;
-				                case 3:
-				                    System.exit(0);
-				            }
-				        } catch (WebServerStateTransitionException e) {
-				            e.printStackTrace();
-				        }
-				    }
-	           }
-	        }
-	    }).start();		
-		
-		new Thread(new Runnable() {
-	        @Override
-	        public void run() {
-	            try {
-	            	WebServer webServer= new WebServer(configFilePath);
-	        		webServer.startWebServer();
-	            } catch (IOException e) {
-	                e.printStackTrace();
-	            } catch (ConfigurationException e) {
-					e.printStackTrace();
-	            } catch (WebServerStateTransitionException e) {
+	public static Persist getPersist() throws IOException, LoadConfigurationFailureException {
+		String configFilePath = "C:/Users/ahurr/Desktop/College/Year 4 (2020-2021)/sem1 (year 4)/SVV/WebServer/WebServer/WebserverTestingDirectories/config.properties";
+		Config config = new Config(configFilePath);
+		return new Persist(config);
+	}
+
+	public static void startWebServer(Persist persist){
+		Scanner in= new Scanner(System.in);
+		new Thread(() -> {
+			Config config = null;
+			try {
+				WebServer.startWebServer(persist);
+			} catch (ConfigurationException e) {
+				e.printStackTrace();
+			}
+		}).start();
+
+		new Thread(() -> {
+			while(true) {
+				TerminalGUI.printServerSettingsMenu();
+				if(!WebServerState.isStopped()){
+					try {
+						System.out.println("Running at http://localhost:"+persist.getPortNumber());
+					} catch (ConfigurationException e) {
+						e.printStackTrace();
+					}
+				}
+				try {
+					switch (in.nextInt()) {
+						case 0:
+							WebServerState.setStopped();
+							break;
+						case 1:
+							WebServerState.setRunning();
+							break;
+						case 2:
+							WebServerState.setMaintenance();
+							break;
+						case 3:
+							System.exit(0);
+					}
+				} catch (WebServerStateTransitionException e) {
 					e.printStackTrace();
 				}
-	        }
-	     }).start();
-	        
+			}
+		}).start();
 	}
-	
+
+
 	public void testConfig() throws LoadConfigurationFailureException, IOException{
 		Config properties = new Config("resources/config/config.properties");
 		properties.loadConfiguration();
@@ -76,7 +74,6 @@ public class Main {
 	
 	public void testPersist() throws IOException, ConfigurationException{
 		String content = "";
-		
 		String filePath = "..\\WebServer\\resources\\testing\\Persist\\testPersistconfig.properties";
 		FileManager.writeContentToFile(filePath, content);
 		Config config = new Config (filePath);

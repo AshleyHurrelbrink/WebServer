@@ -43,9 +43,5 @@ public class Response  {
 		return "Response [httpVersion=" + httpVersion + ", statusCode=" + statusCode + ", contentType=" + contentType
 				+ ", contentString=" + contentString + ", contentBytes=" + Arrays.toString(contentBytes) + "]";
 	}
-	
-	
 
-
-	
 }
