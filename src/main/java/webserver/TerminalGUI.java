@@ -8,12 +8,12 @@ public class TerminalGUI {
 	public static void printServerSettingsMenu(){
 		System.out.println("\n*---------------------------------------------*");
 		System.out.println("Current state: " + WebServerState.getCurrentState());
-	    System.out.println("****************Server settings****************");
-	    System.out.println("* Set to state: 0 (Stopped)                   *");
-	    System.out.println("* Set to state: 1 (Running)                   *");
-	    System.out.println("* Set to state: 2 (Maintenance)               *");
-	    System.out.println("* Exit program: 3                             *");
-	    System.out.println("***********************************************");
+	    System.out.println("----------------Server settings-----------------");
+	    System.out.println("- Set to state: 0 (Stopped)                    -");
+	    System.out.println("- Set to state: 1 (Running)                    -");
+	    System.out.println("- Set to state: 2 (Maintenance)                -");
+	    System.out.println("- Exit program: 3                              -");
+	    System.out.println("------------------------------------------------");
 	    System.out.println("Enter your option:");
 	}
 	
