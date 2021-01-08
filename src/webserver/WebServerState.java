@@ -58,7 +58,17 @@ public class WebServerState extends Thread {
 			return "WebServer is in maintenance";
 		return "State is undefined";
 	}
-	
-	
-	
+
+	public static String getStatus() {
+		if(state==stopped)
+			return "stopped";
+		if(state==running)
+			return "running";
+		if(state==maintenance)
+			return "maintenance";
+		return "State is undefined";
+	}
+
+
+
 }

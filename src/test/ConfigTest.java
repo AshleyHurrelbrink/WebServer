@@ -16,10 +16,10 @@ public class ConfigTest {
 	
 	@Before
 	public void init() throws IOException {
-		String content = "key = value \n"
-				+ "number = 1 \n"
-				+ "path = C:/Users/ahurr/Desktop/College \n"
-				+ "empty = \n";
+		String content = "key = value\n"
+				+ "number = 1\n"
+				+ "path = C:/Users/ahurr/Desktop/College\n"
+				+ "empty =\n";
 		this.validConfigFileName = "resources/testing/testingconfig.properties";
 		this.invalidConfigFileName = "resources/testing/testingconfig_nonExistentFile.properties";
 		

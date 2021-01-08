@@ -21,6 +21,8 @@ public class RequestParserValidator {
 	}
 	
 	public static boolean validateHttpVersion(String http) {
+		if(!http.equals("HTTP/1.1"))
+			return false;
 		return true;
 	}
 }

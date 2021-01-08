@@ -17,7 +17,7 @@ public class FileManagerTest {
 	@Before
 	public void init() {
 		this.validFile = "../WebServer/resources/testing/File_DirectoryMaintenance/ValidDirectory/validFile.html";
-		this.invalidFile = "../WebServer/resources/testing/File_DirectoryMaintenance/InExistentFile";
+		this.invalidFile = "../WebServer/resources/testing/File_DirectoryMaintenance/ValidDirectory/nonexistentFile";
 		this.validDirectory = "../WebServer/resources/testing/File_DirectoryMaintenance/ValidDirectory";
 		
 		this.expectedContent = "<html>\r\n"
@@ -34,19 +34,19 @@ public class FileManagerTest {
 		boolean result = FileManager.isFile(validFile);
 		assertEquals(true,result);
 	}
-	
+
 	@Test
 	public void testInvalidIsFileInexistentFile() {
 		boolean result = FileManager.isFile(invalidFile);
 		assertEquals(false,result);
 	}
-	
+
 	@Test
 	public void testInvalidIsFileUsingDirectory() {
 		boolean result = FileManager.isFile(validDirectory);
 		assertEquals(false,result);
 	}
-	
+
 	@Test
 	public void testValidGetContent() throws IOException {
 		FileManager.writeContentToFile(validFile, expectedContent);
@@ -54,30 +54,24 @@ public class FileManagerTest {
 		String result = FileManager.getContent(validFile);
 		assertEquals(expectedContent,result);
 	}
-	
+
 	@Test
 	public void testInvalidGetContent() throws IOException {
 		FileManager.writeContentToFile(validFile, expectedContent);
-		
+
 		String content = FileManager.getContent(validFile);
 		boolean result = unexpectedContent.equals(content);
 		assertEquals(false,result);
 	}
-	
+
 	@Test( expected = IOException.class)
 	public void testInvalidGetContentFromInvalidFile() throws IOException {
 		FileManager.getContent(invalidFile);
 	}
-	
+
 	@Test
 	public void testWriteContentToExistingFile() throws IOException {
 		FileManager.writeContentToFile(validFile, expectedContent);
-		assertEquals(expectedContent,FileManager.getContent(validFile));
-	}
-	
-	@Test
-	public void testWriteContentToNonExistingFile() throws IOException {
-		FileManager.writeContentToFile(invalidFile, expectedContent);
 		assertEquals(expectedContent,FileManager.getContent(validFile));
 	}
 

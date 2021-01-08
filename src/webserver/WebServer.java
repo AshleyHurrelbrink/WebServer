@@ -24,37 +24,39 @@ public class WebServer extends Thread{
 	public static void startWebServer(Persist persist) throws ConfigurationException {
 		while(true) {
 			if(WebServerState.isRunning()) {
-				performOnMode(persist);
+				performOnMode(persist, getServerSocket(persist));
 			}
 			// do nothing for WebServerState.isStopped()
 		}
 	}
+
+	public static ServerSocket getServerSocket(Persist persist) throws ConfigurationException {
+		try{
+			ServerSocket serverSocket = new ServerSocket(persist.getPortNumber());
+			TerminalGUI.outputMessage("Connection Socket Created");
+			return serverSocket;
+		} catch (IOException | ConfigurationException e) {
+			System.err.println("Could not listen on port: " + persist.getPortNumber());
+		}
+		return null;
+	}
 		
-	public static void performOnMode(Persist persist) throws ConfigurationException {
+	public static void performOnMode(Persist persist, ServerSocket serverSocket) throws ConfigurationException {
 		
 		TerminalGUI.outputMessage("Starting. Enter into state: " + WebServerState.getCurrentState());
-		ServerSocket serverSocket = null;
 
 		try {
-			serverSocket = new ServerSocket(persist.getPortNumber());
-			TerminalGUI.outputMessage("Connection Socket Created");
-			
-			try {
-				while (!WebServerState.isStopped()) {
-					TerminalGUI.outputMessage("Waiting for Connection");
-					ClientSocketManager clientSocket = new ClientSocketManager(serverSocket.accept());
-					new WebServer(clientSocket, persist);
-				} 
-			}catch (IOException e) {
-				System.err.println("Accept failed.");
+			while (!WebServerState.isStopped()) {
+				TerminalGUI.outputMessage("Waiting for Connection");
+				ClientSocketManager clientSocket = new ClientSocketManager(serverSocket.accept());
+				new WebServer(clientSocket, persist);
 			}
-			
-			try {
-				serverSocket.close();
-			} catch (IOException e) {
-				System.err.println("Could not close port: 10008.");
-			}
-			
+		}catch (IOException e) {
+			System.err.println("Accept failed.");
+		}
+
+		try {
+			serverSocket.close();
 		} catch (IOException e) {
 			System.err.println("Could not listen on port: " + persist.getPortNumber());
 		}
