@@ -59,9 +59,9 @@ public class ControllerGUI implements Initializable {
         resetSettings();
 
         // CONFIGURATIONS ---
-        setPort.setEditable(true);
-        setMaintenanceDirectory.setEditable(true);
-        setRootDirectory.setEditable(true);
+        setPort.setDisable(false);
+        setMaintenanceDirectory.setDisable(false);
+        setRootDirectory.setDisable(false);
         searchRootDirectory.setDisable(false);
         searchMaintenanceDirectory.setDisable(false);
 
@@ -104,9 +104,9 @@ public class ControllerGUI implements Initializable {
         stopControl.setVisible(false);
         startControl.setVisible(true);
         checkMaintenance.setSelected(false);
-        setPort.setEditable(false);
-        setRootDirectory.setEditable(false);
-        setMaintenanceDirectory.setEditable(true);
+        setPort.setDisable(true);
+        setRootDirectory.setDisable(true);
+        setMaintenanceDirectory.setDisable(false);
         searchRootDirectory.setDisable(true);
         searchMaintenanceDirectory.setDisable(false);
 
@@ -159,9 +159,9 @@ public class ControllerGUI implements Initializable {
         stopControl.setVisible(false);
         startControl.setVisible(true);
         checkMaintenance.setSelected(false);
-        setPort.setEditable(false);
-        setRootDirectory.setEditable(false);
-        setMaintenanceDirectory.setEditable(true);
+        setPort.setDisable(true);
+        setRootDirectory.setDisable(true);
+        setMaintenanceDirectory.setDisable(false);
         searchRootDirectory.setDisable(true);
         searchMaintenanceDirectory.setDisable(false);
     }
@@ -177,9 +177,9 @@ public class ControllerGUI implements Initializable {
         stopControl.setVisible(false);
         startControl.setVisible(true);
         checkMaintenance.setSelected(true);
-        setPort.setEditable(false);
-        setRootDirectory.setEditable(true);
-        setMaintenanceDirectory.setEditable(false);
+        setPort.setDisable(true);
+        setRootDirectory.setDisable(false);
+        setMaintenanceDirectory.setDisable(true);
         searchRootDirectory.setDisable(false);
         searchMaintenanceDirectory.setDisable(true);
     }

@@ -1,0 +1,56 @@
+{
+  "project-settings": {
+    "allure.tests.management.pattern": "",
+    "marathon.issue.dir": "%marathon.project.dir%/Issues",
+    "marathon.checklist.dir": "%marathon.project.dir%/Checklists",
+    "marathon.test.dir": "%marathon.project.dir%/TestCases",
+    "marathon.application.rubyhome": "",
+    "marathon.application.launchtime": "60000",
+    "allure.issues.tracker.pattern": "",
+    "marathon.data.dir": "%marathon.project.dir%/TestData",
+    "marathon.application.classpath": "",
+    "marathon.application.arguments": "",
+    "marathon.feature.dir": "%marathon.project.dir%/Features",
+    "marathon.application.working.dir": "C:\\Users\\ahurr\\Desktop\\College\\Year 4 (2020-2021)\\sem1 (year 4)\\SVV\\WebServer\\WebServer\\src\\main\\java\\webserver\\GUI",
+    "marathon.capture.dir": "%marathon.project.dir%/Modules",
+    "marathon.project.launcher.model": "net.sourceforge.marathon.runtime.FXRuntimeLauncherModel",
+    "marathon.application.mainclass": "GUI.MainGUI",
+    "marathon.story.dir": "%marathon.project.dir%/Stories",
+    "marathon.fixture.dir": "%marathon.project.dir%/Fixtures",
+    "marathon.project.description": "",
+    "marathon.application.java.home": "",
+    "marathon.project.name": "WebServerTestGUI",
+    "marathon.suite.dir": "%marathon.project.dir%/TestSuites",
+    "marathon.application.rubypath": "",
+    "marathon.project.script.model": "net.sourceforge.marathon.ruby.RubyScriptModel",
+    "marathon.application.vm.arguments": ""
+  },
+  "display": {
+    "maximized": false,
+    "fullScreen": false,
+    "iconified": false,
+    "window.x": 0.0,
+    "window.y": 0.0,
+    "window.w": 1280.0,
+    "window.h": 737.3333129882812
+  },
+  "navigator": {},
+  "workspace": {
+    "state": {
+      "dockables": [
+        "Navigator",
+        "../../../../../../../../Downloads/marathon-5.5.0.0/marathon-5.5.0.0/readme/index.html",
+        "TestCases/testCase",
+        "Results",
+        "Log",
+        "Output"
+      ]
+    }
+  },
+  "project": {
+    "fixture": "default"
+  },
+  "ace-editor": {
+    "theme": "ace/theme/idle_fingers"
+  }
+}
