@@ -14,7 +14,7 @@
 
 ### **INTERFACE**
 
-**The webserver contains a clean interface that allows users to view information regaurding the current status (status, address, listening port) and also allows users to switch between states (stopped, running and maintenance):**
+**The webserver contains a clean interface that allows users to view information regarding the current status (status, address, listening port) and also allows users to switch between states (stopped, running and maintenance):**
 
 **STOPPED**
 
