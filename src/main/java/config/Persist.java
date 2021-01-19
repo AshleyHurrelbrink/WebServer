@@ -12,7 +12,7 @@ import validators.RootDirectoryValidator;
 
 public class Persist {
 
-	private Config config;
+	public Config config;
 
 	public Persist(Config config) throws LoadConfigurationFailureException, IOException {
 		this.config = config;

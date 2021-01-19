@@ -7,7 +7,7 @@ import validators.RequestParserValidator;
 
 public class RequestParser {
 	
-	private String requestSplit[];
+	private String[] requestSplit;
 	
 	public RequestParser(String requestContent) {
 		this.requestSplit = splitString(requestContent);
@@ -52,7 +52,7 @@ public class RequestParser {
 	public String[] splitString(String str) {
 		String delim = " \n\r\t";
 		StringTokenizer tokens = new StringTokenizer(str,delim);
-		String result[] = new String[tokens.countTokens()+1];
+		String[] result = new String[tokens.countTokens()+1];
 		int i = 0;
 		while(tokens.hasMoreTokens()) {
 			result[i]=tokens.nextToken();

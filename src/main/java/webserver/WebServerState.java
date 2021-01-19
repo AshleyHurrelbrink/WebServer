@@ -17,15 +17,15 @@ public class WebServerState extends Thread {
 	private static int state=stopped;
 	
 	public static boolean isStopped() {
-		return (state==stopped)? true: false;
+		return state == stopped;
 	}
 	
 	public static boolean isRunning() {
-		return (state==running)? true: false;
+		return state == running;
 	}
 	
 	public static boolean isMaintenance() {
-		return (state==maintenance)? true: false;
+		return state == maintenance;
 	}
 	
 	public static void setStopped() throws WebServerStateTransitionException {

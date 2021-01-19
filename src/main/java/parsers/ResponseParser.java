@@ -110,10 +110,7 @@ public class ResponseParser {
 			return false;
 		
 		//valid path
-		if(FileManager.isFile(rootDirectoryPath + request.getResourcePath())) 
-			return false;
+        return !FileManager.isFile(rootDirectoryPath + request.getResourcePath());
 
-		return true;
-		
-	}
+    }
 }

@@ -12,11 +12,8 @@ public class FileManager {
 	
 	public static boolean isFile(String filePath) {
 		Path path = Paths.get(filePath);
-		if(Files.exists(path) && Files.isRegularFile(path) && !Files.isDirectory(path)) {
-		    return true;
-		}
-		return false;
-	}
+        return Files.exists(path) && Files.isRegularFile(path) && !Files.isDirectory(path);
+    }
 	
 	public static String getContent(String filePath) throws IOException {
 		//System.out.println("filePath: "+filePath);

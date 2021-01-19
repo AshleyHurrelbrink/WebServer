@@ -18,9 +18,6 @@ public class StateValidator {
 	
 	public static boolean validateSetMaintenance(int currentState) throws WebServerStateTransitionException {
 		//can be set to maintenance if running
-		if(currentState!=running) {
-			return false;
-		}
-		return true;
-	}
+        return currentState == running;
+    }
 }

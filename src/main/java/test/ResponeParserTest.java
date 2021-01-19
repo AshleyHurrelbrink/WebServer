@@ -19,7 +19,7 @@ public class ResponeParserTest {
 	@Before
 	public void init() throws InvalidRequestException, IOException {
 	
-		String requests[]= {"GET / HTTP/1.1\r\n"
+		String[] requests = {"GET / HTTP/1.1\r\n"
 				+ "Host: 127.0.0.1:10008\r\n"
 				+ "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0\r\n"
 				+ "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\n"

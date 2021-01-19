@@ -7,9 +7,6 @@ public class PortNumberValidator {
 		if (String.valueOf(portNumber).isEmpty())
             return false;
 
-        if (!String.valueOf(portNumber).matches("^[0-9]+$"))
-            return false;
-        
-        return true;
-	}
+        return String.valueOf(portNumber).matches("^[0-9]+$");
+    }
 }

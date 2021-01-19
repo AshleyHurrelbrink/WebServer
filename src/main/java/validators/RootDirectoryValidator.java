@@ -9,9 +9,7 @@ public class RootDirectoryValidator {
 		if (DirectoryManager.isDirectory(rootDirectory)) {
 			boolean hasHomePage = DirectoryManager.directoryContainsFile(rootDirectory, DefaultValues.getHomePage());
 			boolean hasPageNotFound = DirectoryManager.directoryContainsFile(rootDirectory, DefaultValues.getpageNotFound());
-			if(hasHomePage  && hasPageNotFound) { 
-				return true;
-			}			
+            return hasHomePage && hasPageNotFound;
 		}
 		return false;
 	}

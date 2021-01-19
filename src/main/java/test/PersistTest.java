@@ -1,6 +1,9 @@
 package test;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import java.io.IOException;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,9 +17,12 @@ import exceptions.config_exceptions.InvalidRootDirectoryException;
 public class PersistTest {
 	
 	String inexistentDir;
-	String validRootDir[], invalidRootDir[];
-	String validMaintenanceDir[], invalidMaintenanceDir;
-	int validPortNumbers[] = {10008, 10009}, invalidPortNumbers[] = {0, -1, 1022, 1};
+	String[] validRootDir;
+	String[] invalidRootDir;
+	String[] validMaintenanceDir;
+	String invalidMaintenanceDir;
+	int[] validPortNumbers = {10008, 10009};
+	int[] invalidPortNumbers = {0, -1, 1022, 1};
 	Config config;
 	
 	@Before
@@ -49,7 +55,7 @@ public class PersistTest {
 	//Set Port Number ---------------------------------------------------------------
 
 	@Test(expected = InvalidPortNumberException.class)
-	public void testSetInvalidPortNumber() throws InvalidPortNumberException, IOException, ConfigurationException {
+	public void testSetIsInvalidPortNumber() throws IOException, ConfigurationException {
 		Persist persist = new Persist(config);
 		
 		for(int port: invalidPortNumbers) {
@@ -58,12 +64,20 @@ public class PersistTest {
 	}
 	
 	@Test
-	public void testSetValidPortNumber() throws InvalidPortNumberException, IOException, ConfigurationException {
+	public void testSetIsValidPortNumber() throws IOException, ConfigurationException {
 		Persist persist = new Persist(config);
 		
 		for(int port: validPortNumbers) {
 			persist.setPortNumber(port);
 		}
+	}
+
+	@Test
+	public void testSetPortNumber() throws ConfigurationException, IOException{
+		Persist persist = new Persist(config);
+		//current value is 10001
+		persist.setPortNumber(10008);
+		assertEquals(10008,persist.getPortNumber());
 	}
 
 	//Set Root Directory ---------------------------------------------------------------
@@ -87,7 +101,7 @@ public class PersistTest {
 	}
 	
 	@Test (expected = InvalidRootDirectoryException.class)
-	public void testSetInexistantRootDirectory() throws ConfigurationException, IOException{
+	public void testSetInexistentRootDirectory() throws ConfigurationException, IOException{
 		Persist persist = new Persist(config);
 		
 		persist.setRootDirectory(inexistentDir);
@@ -140,16 +154,6 @@ public class PersistTest {
 	public void testGetMaintenanceDirectory() throws ConfigurationException, IOException {
 		Persist persist = new Persist(config);
 		persist.getMaintenanceDirectory();
-	}
-	
-	//Set and Get Port Number ---------------------------------------------------------------
-	
-	@Test
-	public void testValidSetAndGetPortNumber() throws ConfigurationException, IOException{
-		Persist persist = new Persist(config);
-		//current value is 10001
-		persist.setPortNumber(10008);
-		assertEquals(10008,persist.getPortNumber());
 	}
 	
 	//Get and Set Root Directory ---------------------------------------------------------------

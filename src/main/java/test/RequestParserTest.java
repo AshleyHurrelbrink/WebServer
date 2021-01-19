@@ -14,7 +14,7 @@ public class RequestParserTest {
 	@Before
 	public void init() {
 	
-		String validRequests[]= {"GET / HTTP/1.1\r\n"
+		String[] validRequests = {"GET / HTTP/1.1\r\n"
 				+ "Host: 127.0.0.1:10014\r\n"
 				+ "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:83.0) Gecko/20100101 Firefox/83.0\r\n"
 				+ "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\n"
@@ -41,7 +41,7 @@ public class RequestParserTest {
 				+ "Connection: keep-alive\r\n"
 				+ "Upgrade-Insecure-Requests: 1"};
 		
-		String invalidRequests[]= {"PUT  \r\n"
+		String[] invalidRequests = {"PUT  \r\n"
 				+ "Host: \r\n"
 				+ "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:81.0) Gecko/20100101 Firefox/81.0\r\n"
 				+ "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\n"
